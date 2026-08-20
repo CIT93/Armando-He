@@ -32,4 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     totalDisplayElement.textContent = message;
   };
 
+
+  // Step 2.4: Add Event Listener
+  addItemButtonElement.addEventListener("click", handleAddItem);
 });
