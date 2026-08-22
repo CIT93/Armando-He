@@ -25,3 +25,6 @@ function handleAddItem() {
 
   totalDisplayElement.textContent = message;
 }
+
+// Step 2.4: Event Listener
+addItemButtonElement.addEventListener("click", handleAddItem);
