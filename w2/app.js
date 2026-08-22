@@ -6,3 +6,6 @@ console.log("Shopping Cart App Running!");
 const totalDisplayElement = document.getElementById("total-display");
 const addItemButtonElement = document.getElementById("add-item-btn");
 
+// Step 2.2: Variables
+let totalCost = 0;
+const itemPrice = 15;
