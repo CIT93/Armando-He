@@ -1,12 +1,14 @@
 import * as orderForm from "./order-handler.js";
 import * as priceCalculator from "./price-calculator.js";
+import * as resultsDisplay from "./results-display.js";
+
 const orders = [];
 
 // Get a reference to the order form
 const form = document.querySelector("#order-form");
 
 // Get a reference to the order summary
-const orderSummary = document.querySelector("#order-summary");
+
 
 // Handles the order form submission
 const handleOrderSubmit = (event) => {
@@ -22,6 +24,9 @@ const handleOrderSubmit = (event) => {
 };
   orders.push(newOrder);
   console.log(orders);
+
+  resultsDisplay.displayOrder(newOrder);
+
 
   }
 
