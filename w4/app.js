@@ -1,4 +1,6 @@
 import * as orderForm from "./order-handler.js";
+import * as priceCalculator from "./price-calculator.js";
+const orders = [];
 
 // Get a reference to the order form
 const form = document.querySelector("#order-form");
@@ -11,15 +13,19 @@ const handleOrderSubmit = (event) => {
   event.preventDefault();
 
   const formData = orderForm.getOrderInputs();
+  const calculatedPrice = priceCalculator.calculateTotal(formData);
+  
+  const newOrder = {
+  ...formData,
+  ...calculatedPrice,
+  timestamp: new Date().toISOString()
+};
+  orders.push(newOrder);
+  console.log(orders);
 
-  let summary = `Ordered ${formData.qty} ${formData.size} T-Shirts`;
-
-  if (formData.giftWrap) {
-    summary += " - gift wrapped";
   }
 
   orderSummary.textContent = summary;
-};
 // Initializes the application
 const init = () => {
   form.addEventListener("submit", handleOrderSubmit);
