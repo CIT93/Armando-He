@@ -30,7 +30,7 @@ const handleOrderSubmit = (event) => {
 
   }
 
-  orderSummary.textContent = summary;
+ 
 // Initializes the application
 const init = () => {
   form.addEventListener("submit", handleOrderSubmit);
