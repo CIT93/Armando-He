@@ -23,6 +23,7 @@ const handleOrderSubmit = (event) => {
 
   orders.push(newOrder);
 
+
   // PASO 5 (se hace después del paso 4)
   orderStorage.saveOrders(orders);
 
