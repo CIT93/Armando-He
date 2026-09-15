@@ -1,16 +1,19 @@
-// Get references to the order summary elements
-const orderSummary = document.querySelector("#order-summary");
-const displayTotal = document.querySelector("#display-total");
-const displayQty = document.querySelector("#display-qty");
-const displaySize = document.querySelector("#display-size");
-const displayGift = document.querySelector("#display-gift");
+const orderSummary = document.getElementById('order-summary');
+const displayTotal = document.getElementById('display-total');
+const displayQty = document.getElementById('display-qty');
+const displaySize = document.getElementById('display-size');
+const displayGift = document.getElementById('display-gift');
 
-// Display the order results
-export const displayOrder = (orderData) => {
-  displayTotal.textContent = orderData.totalPrice;
-  displayQty.textContent = orderData.qty;
-  displaySize.textContent = orderData.size;
-  displayGift.textContent = orderData.giftWrap ? "Yes" : "No";
+export function displayOrder(order) {
+    displayTotal.textContent = order.totalPrice;
+    displayQty.textContent = order.qty;
+    displaySize.textContent = order.size;
 
-  orderSummary.style.display = "block";
-};
+    if (order.giftWrap === true) {
+        displayGift.textContent = "Yes";
+    } else {
+        displayGift.textContent = "No";
+    }
+
+    orderSummary.style.display = "block";
+}

@@ -2,6 +2,8 @@ import * as orderForm from "./order-handler.js";
 import * as priceCalculator from "./price-calculator.js";
 import * as resultsDisplay from "./results-display.js";
 
+
+
 const orders = [];
 
 // Get a reference to the order form
@@ -18,17 +20,16 @@ const handleOrderSubmit = (event) => {
   const calculatedPrice = priceCalculator.calculateTotal(formData);
   
   const newOrder = {
-  ...formData,
-  ...calculatedPrice,
-  timestamp: new Date().toISOString()
-};
+    ...formData,
+    ...calculatedPrice,
+    timestamp: new Date().toISOString()
+  };
+
   orders.push(newOrder);
-  console.log(orders);
 
   resultsDisplay.displayOrder(newOrder);
+}
 
-
-  }
 
  
 // Initializes the application
