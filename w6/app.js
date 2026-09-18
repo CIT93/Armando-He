@@ -1,7 +1,8 @@
 import * as orderForm from "./order-handler.js";
 import * as priceCalculator from "./price-calculator.js";
-import * as resultsDisplay from "./results-display.js";
+// import * as resultsDisplay from "./results-display.js"; // ya no se usa
 import * as orderStorage from './order-storage.js';
+import * as orderList from './order-list.js';
 
 const orders = [];
 
@@ -23,25 +24,27 @@ const handleOrderSubmit = (event) => {
 
   orders.push(newOrder);
 
-
-  // PASO 5 (se hace después del paso 4)
+  // guardar todas las órdenes
   orderStorage.saveOrders(orders);
 
-  resultsDisplay.displayOrder(newOrder);
+  // ⭐ mostrar TODAS las órdenes en la tabla
+  orderList.renderOrders(orders);
 }
 
 // Initializes the application
 const init = () => {
 
-  // ⭐⭐⭐ PASO 4 — Cargar órdenes guardadas al iniciar ⭐⭐⭐
   const loadedOrders = orderStorage.loadOrders();
 
   if (loadedOrders.length > 0) {
     orders.push(...loadedOrders);
+
+    // ⭐ dibujar la tabla al iniciar
+    orderList.renderOrders(orders);
+
     console.log("Orders loaded");
   }
 
-  // Event listener
   form.addEventListener("submit", handleOrderSubmit);
 
   console.log("App Initialized");
