@@ -47,6 +47,21 @@ const init = () => {
 
   form.addEventListener("submit", handleOrderSubmit);
 
+  const clearBtn = document.getElementById("clear-btn");
+
+clearBtn.addEventListener("click", () => {
+    
+    orders.length = 0;
+
+    orderStorage.saveOrders(orders);
+
+   
+    orderList.renderOrders(orders);
+
+    console.log("Order history cleared");
+});
+
+
   console.log("App Initialized");
 };
 
