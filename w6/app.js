@@ -1,8 +1,8 @@
-import * as orderForm from "./order-handler.js";
-import * as priceCalculator from "./price-calculator.js";
-// import * as resultsDisplay from "./results-display.js"; // ya no se usa
-import * as orderStorage from './order-storage.js';
-import * as orderList from './order-list.js';
+import * as orderForm from "./order-hander.js";
+import * as priceCalculator from "./price.calculator.js";
+import * as orderStorage from "./order-storage.js";
+import * as orderList from "./order-list.js";
+
 
 const orders = [];
 
