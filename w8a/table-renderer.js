@@ -43,13 +43,13 @@ export function renderTable(entries, callbacks = {}) {
 
 
 // --- Create table row ---
-function createTableRow(entry) {
-    const row = document.createElement("tr")
-    row.dataset.id = entry.id
+ function createTableRow(entry) {
+    const row = document.createElement("tr");
+    row.dataset.id = entry.id;
 
     row.innerHTML = `
         <td>${formatDate(entry.timestamp)}</td>
-        <td>${entry.householdSize}</td>
+        <td>${entry.householdMembers}</td>
         <td>${formatHomeSize(entry.homeSquareFootage, entry.isApartment)}</td>
         <td>${formatRadioValue(entry.dietType)}</td>
         <td>${formatRadioValue(entry.foodPackaging)}</td>
@@ -58,9 +58,11 @@ function createTableRow(entry) {
             <button class="action-button edit" data-id="${entry.id}">Edit</button>
             <button class="action-button delete" data-id="${entry.id}">Delete</button>
         </td>
-    `  // ❌ ERROR: falta cerrar el template literal y falta un bracket
+    `;
 
-// ❌ ERROR: falta el return y falta cerrar la función
+    return row;
+}
+
 
 
 
