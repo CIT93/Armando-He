@@ -79,12 +79,12 @@ function calculateFoodPackagingPoints(foodPackaging) {
 }
 
 function calculateFootprint(data) {
-    const householdPoints = calculateHouseholdPoints(data.householdMembers)
-    const homeSizePoints = calculateHomeSizePoints(data.homeSquareFootage, data.isApartment)
-    const dietPoints = calculateDietPoints(data.dietType)
-    const foodPackagingPoints = calculateFoodPackagingPoints(data.foodPackaging)
+    const householdPoints = calculateHouseholdPoints(data.householdMembers);
+    const homeSizePoints = calculateHomeSizePoints(data.homeSquareFootage, data.isApartment);
+    const dietPoints = calculateDietPoints(data.dietType);
+    const foodPackagingPoints = calculateFoodPackagingPoints(data.foodPackaging);
 
-    const totalPoints = householdPoints + homeSizePoints + dietPoints + foodPackagingPoints
+    const totalPoints = householdPoints + homeSizePoints + dietPoints + foodPackagingPoints;
 
     return {
         householdPoints,
@@ -92,7 +92,8 @@ function calculateFootprint(data) {
         dietPoints,
         foodPackagingPoints,
         totalPoints
-    }
+    };
 }
+
 
 export { calculateFootprint };

@@ -44,8 +44,8 @@ export function renderTable(entries, callbacks = {}) {
 
 // --- Create table row ---
 function createTableRow(entry) {
-    const row = document.createElement("tr");
-    row.dataset.id = entry.id;
+    const row = document.createElement("tr")
+    row.dataset.id = entry.id
 
     row.innerHTML = `
         <td>${formatDate(entry.timestamp)}</td>
@@ -58,10 +58,10 @@ function createTableRow(entry) {
             <button class="action-button edit" data-id="${entry.id}">Edit</button>
             <button class="action-button delete" data-id="${entry.id}">Delete</button>
         </td>
-    `;
+    `  // ❌ ERROR: falta cerrar el template literal y falta un bracket
 
-    return row;
-}
+// ❌ ERROR: falta el return y falta cerrar la función
+
 
 
 // --- Handle table clicks (event delegation) ---
