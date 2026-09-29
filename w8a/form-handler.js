@@ -41,7 +41,7 @@ export function getFormInput(form) {
   // @returns {Object} An object containing all the collected input values.
   return {
     householdMembers,
-    homeSize,
+    homeSquareFootage: homeSize
     isApartment,
     dietType,
     foodPackaging,
