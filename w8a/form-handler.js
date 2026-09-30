@@ -2,6 +2,10 @@
 
 const entryIdInput = document.getElementById("entryId");
 const submitButton = document.getElementById("submitButton");
+const dishwasherRunsInput = document.getElementById("dishwasherWashingMachineRuns");
+const hasDishwasherInput = document.getElementById("hasDishwasher");
+const hasWashingMachineInput = document.getElementById("hasWashingMachine");
+
 
 export function clearForm(form) {
   form.reset();
