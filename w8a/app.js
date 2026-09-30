@@ -1,4 +1,4 @@
-import { getFormInput, clearForm } from "./form-handler.js";
+import { getFormInput, clearForm, populateFormForEdit } from "./form-handler.js";
 import { calculateFootprint } from "./calculator.js";
 import { displayResults, hideResults } from "./results-display.js";
 import * as storage from "./storage.js";
@@ -28,7 +28,11 @@ const handleDelete = (id) => {
   storage.saveEntries(carbonFootprintEntries);
 
   // 4. Re-render table
-  renderTable(carbonFootprintEntries, { onDelete: handleDelete });
+  renderTable(carbonFootprintEntries, { 
+  onDelete: handleDelete,
+  onEdit: handleEditEntry
+});
+
 
   // If empty → hide results + clear form
   if (carbonFootprintEntries.length === 0) {
@@ -36,6 +40,20 @@ const handleDelete = (id) => {
     clearForm(document.getElementById("carbonFootprintForm"));
   }
 };
+// Week 8.1 — EDIT FUNCTIONALITY
+const handleEditEntry = (id) => {
+  const entryToEdit = carbonFootprintEntries.find(entry => entry.id === id);
+
+  if (!entryToEdit) {
+    console.warn("Entry not found for editing:", id);
+    return;
+  }
+
+  populateFormForEdit(entryToEdit);
+
+  window.scroll({ top: 0, behavior: "smooth" });
+};
+
 
 
 // -------------------------------------------------------------
@@ -47,7 +65,11 @@ const initApp = () => {
   carbonFootprintEntries.push(...storage.loadEntries());
 
   // Render table WITH delete callback
-  renderTable(carbonFootprintEntries, { onDelete: handleDelete });
+  renderTable(carbonFootprintEntries, { 
+  onDelete: handleDelete,
+  onEdit: handleEditEntry
+});
+
 
   console.log("App initialized: DOM is ready!");
 

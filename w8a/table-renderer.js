@@ -70,6 +70,16 @@ export function renderTable(entries, callbacks = {}) {
 function handleTableClick(event) {
     const target = event.target;
 
+     // EDIT clicked
+    if (target.classList.contains("edit")) {
+        // Clear any pending delete confirmation before editing
+        hideDeleteConfirmationButtons();
+
+        // Call the edit callback provided by app.js
+        latestCallbacks.onEdit(target.dataset.id);
+        return;
+    }
+
     // DELETE clicked
     if (target.classList.contains("delete")) {
         const id = target.dataset.id;
