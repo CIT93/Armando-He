@@ -81,27 +81,54 @@ const initApp = () => {
   // -------------------------------------------------------------
   // FORM SUBMIT
   // -------------------------------------------------------------
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+// Week 8.1 — CREATE vs UPDATE
+const handleFormSubmit = (event) => {
+  event.preventDefault();
 
-    const formData = getFormInput(form);
-    const result = calculateFootprint(formData);
+  const formData = getFormInput(form);
+  let timestamp;
 
-    displayResults(result);
+  if (formData.id) {
+    const existingEntry = carbonFootprintEntries.find(e => e.id === formData.id);
 
-    const entry = {
-      id: storage.generateUniqueId(),
+    if (existingEntry) {
+      timestamp = existingEntry.timestamp;
+
+      Object.assign(existingEntry, {
+        ...formData,
+        timestamp,
+        totalPoints: calculateFootprint(formData).totalPoints
+      });
+
+    } else {
+      timestamp = Date.now();
+      carbonFootprintEntries.push({
+        ...formData,
+        id: storage.generateUniqueId(),
+        timestamp,
+        ...calculateFootprint(formData)
+      });
+    }
+
+  } else {
+    timestamp = Date.now();
+    carbonFootprintEntries.push({
       ...formData,
-      ...result,
-      timestamp: Date.now()
-    };
+      id: storage.generateUniqueId(),
+      timestamp,
+      ...calculateFootprint(formData)
+    });
+  }
 
-    carbonFootprintEntries.push(entry);
+  storage.saveEntries(carbonFootprintEntries);
 
-    storage.saveEntries(carbonFootprintEntries);
+  renderTable(carbonFootprintEntries, { 
+    onDelete: handleDelete,
+    onEdit: handleEditEntry
+  });
 
-    renderTable(carbonFootprintEntries, { onDelete: handleDelete });
-  };
+  clearForm(form);
+};
 
 
   // -------------------------------------------------------------
