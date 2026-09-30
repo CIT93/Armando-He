@@ -1,63 +1,61 @@
-//--- Part 1: Code clearForm and getFormInput
+// --- Week 8.1 Form Handler ---
 
-// Collects all relevant input values from the form for Household Size, Home Size, and Food Choices.
+const entryIdInput = document.getElementById("entryId");
+const submitButton = document.getElementById("submitButton");
 
-// Clears all input fields in the form and resets default selections.
 export function clearForm(form) {
   form.reset();
   form.querySelector("#householdMembers").value = 1;
+  entryIdInput.value = "";
+  submitButton.textContent = "Submit Entry";
 }
 
-// Collects all relevant input values from the form.
 export function getFormInput(form) {
-  const householdMembers =
-    parseInt(form.querySelector("#householdMembers").value) || 1;
-
-  // Home Size reference
+  const householdMembers = parseInt(form.querySelector("#householdMembers").value) || 1;
   const homeSizeInput = form.querySelector("#homeSquareFootage");
-
-  // Apartment Checkbox reference
   const apartmentCheckbox = form.querySelector("#isApartment");
-
-  // Declare a locally scoped value for square footage
   const homeSize = parseInt(homeSizeInput.value) || 0;
-
-  // Read the 'checked' property for checkboxes.
   const isApartment = apartmentCheckbox.checked;
 
-  // Food Choices (radio buttons - we need to query for all with the same 'name')
-  const dietTypeRadioButtons = form.querySelectorAll(
-    'input[name="dietType"]'
-  );
-
+  const dietTypeRadioButtons = form.querySelectorAll('input[name="dietType"]');
   const dietType = getSelectedRadioValue(dietTypeRadioButtons);
 
-  const foodPackagingRadioButtons = form.querySelectorAll(
-    'input[name="foodPackaging"]'
-  );
-
+  const foodPackagingRadioButtons = form.querySelectorAll('input[name="foodPackaging"]');
   const foodPackaging = getSelectedRadioValue(foodPackagingRadioButtons);
 
-  // @returns {Object} An object containing all the collected input values.
   return {
+    id: entryIdInput.value || null,
     householdMembers,
-    homeSquareFootage: homeSize
+    homeSquareFootage: homeSize,
     isApartment,
     dietType,
     foodPackaging,
   };
 }
 
-// Dry - Don't Repeat Yourself
-// Write a function to handle this and return the value
-// @param {NodeList} radioButtons - A NodeList (like an array) of radio button elements.
-// @returns {string} The 'value' attribute of the selected radio button.
 export function getSelectedRadioValue(radioButtons) {
   for (const radioButton of radioButtons) {
     if (radioButton.checked) {
       return radioButton.value;
     }
   }
-
   return "";
+}
+
+// Populate form when editing
+export function populateFormForEdit(entry) {
+  entryIdInput.value = entry.id;
+  document.querySelector("#householdMembers").value = entry.householdMembers;
+  document.querySelector("#homeSquareFootage").value = entry.homeSquareFootage;
+  document.querySelector("#isApartment").checked = entry.isApartment;
+
+  document.querySelectorAll('input[name="dietType"]').forEach(radio => {
+    radio.checked = radio.value === entry.dietType;
+  });
+
+  document.querySelectorAll('input[name="foodPackaging"]').forEach(radio => {
+    radio.checked = radio.value === entry.foodPackaging;
+  });
+
+  submitButton.textContent = "Update Entry";
 }

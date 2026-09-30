@@ -16,31 +16,29 @@ let clearConfirmTimeout = null;
 // Week 7.1 — DELETE FUNCTIONALITY
 // -------------------------------------------------------------
 const handleDelete = (id) => {
-  // 1. Find index
   const index = carbonFootprintEntries.findIndex(entry => entry.id === id);
 
-  // 2. Remove entry
   if (index !== -1) {
     carbonFootprintEntries.splice(index, 1);
   }
 
-  // 3. Save updated array
   storage.saveEntries(carbonFootprintEntries);
 
-  // 4. Re-render table
   renderTable(carbonFootprintEntries, { 
-  onDelete: handleDelete,
-  onEdit: handleEditEntry
-});
+    onDelete: handleDelete,
+    onEdit: handleEditEntry
+  });
 
-
-  // If empty → hide results + clear form
   if (carbonFootprintEntries.length === 0) {
     hideResults();
     clearForm(document.getElementById("carbonFootprintForm"));
   }
 };
+
+
+// -------------------------------------------------------------
 // Week 8.1 — EDIT FUNCTIONALITY
+// -------------------------------------------------------------
 const handleEditEntry = (id) => {
   const entryToEdit = carbonFootprintEntries.find(entry => entry.id === id);
 
@@ -55,23 +53,17 @@ const handleEditEntry = (id) => {
 };
 
 
-
 // -------------------------------------------------------------
 // INIT APP
 // -------------------------------------------------------------
 const initApp = () => {
 
-  // Load saved entries
   carbonFootprintEntries.push(...storage.loadEntries());
 
-  // Render table WITH delete callback
   renderTable(carbonFootprintEntries, { 
-  onDelete: handleDelete,
-  onEdit: handleEditEntry
-});
-
-
-  console.log("App initialized: DOM is ready!");
+    onDelete: handleDelete,
+    onEdit: handleEditEntry
+  });
 
   const form = document.getElementById("carbonFootprintForm");
   const clearButton = document.getElementById("clearFormButton");
@@ -79,28 +71,39 @@ const initApp = () => {
 
 
   // -------------------------------------------------------------
-  // FORM SUBMIT
+  // Week 8.1 — CREATE vs UPDATE
   // -------------------------------------------------------------
-// Week 8.1 — CREATE vs UPDATE
-const handleFormSubmit = (event) => {
-  event.preventDefault();
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
 
-  const formData = getFormInput(form);
-  let timestamp;
+    const formData = getFormInput(form);
+    let timestamp;
 
-  if (formData.id) {
-    const existingEntry = carbonFootprintEntries.find(e => e.id === formData.id);
+    // UPDATE MODE
+    if (formData.id) {
+      const existingEntry = carbonFootprintEntries.find(e => e.id === formData.id);
 
-    if (existingEntry) {
-      timestamp = existingEntry.timestamp;
+      if (existingEntry) {
+        timestamp = existingEntry.timestamp;
 
-      Object.assign(existingEntry, {
-        ...formData,
-        timestamp,
-        totalPoints: calculateFootprint(formData).totalPoints
-      });
+        Object.assign(existingEntry, {
+          ...formData,
+          timestamp,
+          totalPoints: calculateFootprint(formData).totalPoints
+        });
+
+      } else {
+        timestamp = Date.now();
+        carbonFootprintEntries.push({
+          ...formData,
+          id: storage.generateUniqueId(),
+          timestamp,
+          ...calculateFootprint(formData)
+        });
+      }
 
     } else {
+      // CREATE MODE
       timestamp = Date.now();
       carbonFootprintEntries.push({
         ...formData,
@@ -110,25 +113,15 @@ const handleFormSubmit = (event) => {
       });
     }
 
-  } else {
-    timestamp = Date.now();
-    carbonFootprintEntries.push({
-      ...formData,
-      id: storage.generateUniqueId(),
-      timestamp,
-      ...calculateFootprint(formData)
+    storage.saveEntries(carbonFootprintEntries);
+
+    renderTable(carbonFootprintEntries, { 
+      onDelete: handleDelete,
+      onEdit: handleEditEntry
     });
-  }
 
-  storage.saveEntries(carbonFootprintEntries);
-
-  renderTable(carbonFootprintEntries, { 
-    onDelete: handleDelete,
-    onEdit: handleEditEntry
-  });
-
-  clearForm(form);
-};
+    clearForm(form);
+  };
 
 
   // -------------------------------------------------------------
@@ -147,7 +140,10 @@ const handleFormSubmit = (event) => {
 
     carbonFootprintEntries.length = 0;
 
-    renderTable(carbonFootprintEntries, { onDelete: handleDelete });
+    renderTable(carbonFootprintEntries, { 
+      onDelete: handleDelete,
+      onEdit: handleEditEntry
+    });
 
     clearForm(form);
     hideResults();
@@ -193,18 +189,5 @@ const handleFormSubmit = (event) => {
 // DOM READY
 // -------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", initApp);
-
-
-// Debug logs
-console.log(calculateFootprint({ householdMembers: 3 }));
-console.log(
-  calculateFootprint({
-    householdMembers: 3,
-    homeSquareFootage: 1200,
-    isApartment: false,
-    dietType: "average",
-    foodPackaging: "balanced",
-  })
-);
 
 export { calculateFootprint };
