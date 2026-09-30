@@ -10,6 +10,9 @@ const homeSizeFootprintDisplay = resultsContainer.querySelector("#homeSizeFootpr
 const foodDietFootprintDisplay = resultsContainer.querySelector("#foodDietFootprint");
 const foodPackagingFootprintDisplay = resultsContainer.querySelector("#foodPackagingFootprint");
 
+// NEW: Water Consumption reference
+const waterConsumptionFootprintDisplay = resultsContainer.querySelector("#waterConsumptionFootprint");
+
 // Displays the calculated carbon footprint results in the results section.
 // @param {Object} results - An object containing the calculated footprint values (points).
 export function displayResults(results) {
@@ -18,6 +21,9 @@ export function displayResults(results) {
     homeSizeFootprintDisplay.textContent = `Home Size: ${results.homeSizePoints} Points`;
     foodDietFootprintDisplay.textContent = `Food Diet: ${results.dietPoints} Points`;
     foodPackagingFootprintDisplay.textContent = `Food Packaging: ${results.foodPackagingPoints} Points`;
+
+    // NEW: Water Consumption
+    waterConsumptionFootprintDisplay.textContent = `Water Consumption: ${results.waterConsumptionPoints} Points`;
 
     // Make the entire results section visible
     resultsContainer.style.display = "block";

@@ -1,5 +1,5 @@
 // This module handles rendering the carbon footprint entries table.
-// Simplified to only render Date, HH Size, Home Size, Diet, Food Pkg, and Total Points.
+// Simplified to only render Date, HH Size, Home Size, Diet, Food Pkg, Water, and Total Points.
 
 let pendingActionCell = null;
 let pendingTimerId = null;
@@ -45,7 +45,12 @@ function createTableRow(entry) {
     <td>${formatHomeSize(entry.homeSquareFootage, entry.isApartment)}</td>
     <td>${formatRadioValue(entry.dietType)}</td>
     <td>${formatRadioValue(entry.foodPackaging)}</td>
+
+    <!-- NEW: Water Consumption Column -->
+    <td>${entry.waterConsumptionPoints}</td>
+
     <td>${entry.totalPoints}</td>
+
     <td class="action-cell">
       <button class="action-button edit" data-id="${entry.id}">Edit</button>
       <button class="action-button delete" data-id="${entry.id}">Delete</button>
@@ -59,9 +64,7 @@ function handleTableClick(event) {
 
   // EDIT clicked
   if (target.classList.contains("edit")) {
-    // Clear any pending delete confirmation before editing
     hideDeleteConfirmationButtons();
-    // Call the edit callback provided by app.js
     latestCallbacks.onEdit(target.dataset.id);
     return;
   }
